@@ -1,4 +1,4 @@
 {
-  "builds": [{ "src": "server.ts", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "/server.js" }]
+  "builds": [{ "src": "/src/server.ts", "use": "@vercel/node" }],
+  "routes": [{ "src": "/(.*)", "dest": "/dist/server.js" }]
 }

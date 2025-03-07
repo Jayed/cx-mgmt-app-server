@@ -17,7 +17,6 @@ async function main() {
     process.exit(1); // Exit process if database connection fails
   }
 }
-// Call main form here
 main();
 
 // ---------BasicCode_______
