@@ -1,10 +1,14 @@
-import { Request, Response } from 'express';
-import {CustomerServices } from './customer.service';
+import { NextFunction, Request, Response } from 'express';
+import { CustomerServices } from './customer.service';
 
-// Create new customer 
-const createCustomer = async (req: Request, res: Response) => {
+// Create new customer
+const createCustomer = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const CustomerData = req.body; 
+    const CustomerData = req.body;
     // console.log("CustomerData: ", CustomerData);
     // will call service func to send this data
     const result = await CustomerServices.createCustomerIntoDB(CustomerData);
@@ -15,11 +19,15 @@ const createCustomer = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
-const getAllCustomers = async (req: Request, res: Response) => {
+const getAllCustomers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await CustomerServices.getAllCustomersFromDB();
     // console.log("controller: ",result);
@@ -31,40 +39,43 @@ const getAllCustomers = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
 // Get specific customer by Id
-const getCustomerById = async (req: Request, res: Response): Promise<Response> => {
+const getCustomerById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { id } = req.params; // Correct param extraction
     const customer = await CustomerServices.getCustomerByIdFromDB(id);
 
     if (!customer) {
-      return res.status(404).json({
+      res.status(404).json({
         success: false,
-        message: "Customer not found",
+        message: 'Customer not found',
       });
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      message: "Customer retrieved successfully",
+      message: 'Customer retrieved successfully',
       data: customer,
     });
   } catch (error) {
-    console.error("Error retrieving customer:", error);
-    return res.status(500).json({
-      success: false,
-      message: "An error occurred while retrieving the customer",
-      error: error instanceof Error ? error.message : error,
-    });
+    next(error);
   }
 };
 
-// Update a customer 
-const updateCustomerById = async (req: Request, res: Response) => {
+// Update a customer
+const updateCustomerById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { CustomerId } = req.params;
     const updatedData = req.body;
@@ -72,11 +83,11 @@ const updateCustomerById = async (req: Request, res: Response) => {
     // Call service
     const updatedCustomer = await CustomerServices.updateCustomerByIdInDB(
       CustomerId,
-      updatedData,
+      updatedData
     );
 
     if (!updatedCustomer) {
-      return res.status(404).json({
+       res.status(404).json({
         message: 'Customer not found',
         status: false,
       });
@@ -88,23 +99,24 @@ const updateCustomerById = async (req: Request, res: Response) => {
       data: updatedCustomer,
     });
   } catch (error) {
-    res.status(500).json({
-      message: 'An error occurred while updating the Customer',
-      status: false,
-      error: error,
-    });
+    next(error);
   }
 };
 
 // Delete a customer
-const deleteCustomerById = async (req: Request, res: Response) => {
+const deleteCustomerById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { CustomerId } = req.params;
-    const deletedCustomer =
-      await CustomerServices.deleteCustomerByIdFromDB(CustomerId);
+    const deletedCustomer = await CustomerServices.deleteCustomerByIdFromDB(
+      CustomerId
+    );
 
     if (!deletedCustomer) {
-      return res.status(404).json({
+       res.status(404).json({
         message: 'Customer not found',
         status: false,
       });
@@ -116,14 +128,9 @@ const deleteCustomerById = async (req: Request, res: Response) => {
       data: {},
     });
   } catch (error) {
-    res.status(500).json({
-      message: 'An error occurred while deleting the Customer',
-      status: false,
-      error: error,
-    });
+    next(error);
   }
 };
-
 
 export const CustomerControllers = {
   getAllCustomers,
@@ -132,4 +139,3 @@ export const CustomerControllers = {
   updateCustomerById,
   deleteCustomerById,
 };
-

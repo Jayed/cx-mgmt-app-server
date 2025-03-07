@@ -16,27 +16,22 @@ const getTransactionByIdFromDB = async (id: string) => {
   // console.log(Transaction);
   return Transaction;
 };
-// const getTransactionByIdFromDB = async (id: string) => {
-//   if (!Types.ObjectId.isValid(id)) return null; // Extra validation
-//   return await TransactionModel.findById(id);
-// };
-
 // Create Transaction
-// const createTransactionIntoDB = async (Transaction: ITransaction) => {
-//   // console.log('Services:', Transaction);
-//   const result = await TransactionModel.create(Transaction);
-//   return result;
-// };
-const createTransactionIntoDB = async (transactionData: ITransaction) => {
-  try {
-    console.log("Service - Creating Transaction:", transactionData);
-    const newTransaction = await TransactionModel.create(transactionData);
-    return newTransaction;
-  } catch (error) {
-    console.error("Error creating transaction in DB:", error);
-    throw new Error("Error creating transaction");
-  }
+const createTransactionIntoDB = async (Transaction: ITransaction) => {
+  // console.log('Services:', Transaction);
+  const result = await TransactionModel.create(Transaction);
+  return result;
 };
+// const createTransactionIntoDB = async (transactionData: ITransaction) => {
+//   try {
+//     console.log("Service - Creating Transaction:", transactionData);
+//     const newTransaction = await TransactionModel.create(transactionData);
+//     return newTransaction;
+//   } catch (error) {
+//     console.error("Error creating transaction in DB:", error);
+//     throw new Error("Error creating transaction");
+//   }
+// };
 
 // Update a Transaction
 const updateTransactionByIdInDB = async (

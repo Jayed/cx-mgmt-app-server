@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { TransactionControllers } from './transaction.controller';
 
 const routerTransaction = express.Router();
