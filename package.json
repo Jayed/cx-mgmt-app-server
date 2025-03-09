@@ -14,10 +14,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-<<<<<<< HEAD
     "express-async-handler": "^1.2.0",
-=======
->>>>>>> 4856e4f2b0d983248a247269977ea82dbb523717
     "mongoose": "^8.11.0"
   },
   "devDependencies": {
